@@ -3,11 +3,10 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - aws --version
+      - echo Logging in to Docker Hub...
+      - echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+      - echo Logging in to Amazon ECR..
       - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 565393042665.dkr.ecr.ap-northeast-1.amazonaws.com
-      - REPOSITORY_URI=565393042665.dkr.ecr.ap-northeast-1.amazonaws.com/myapp-repo
-      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
   build:
     commands:
       - echo Build started on `date`
